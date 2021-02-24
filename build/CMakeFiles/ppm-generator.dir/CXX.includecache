@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/seanballais/Code/Projects/simple-raytracer/src/colour.hpp
+iostream
+-
+vec3.hpp
+/home/seanballais/Code/Projects/simple-raytracer/src/vec3.hpp
+
+/home/seanballais/Code/Projects/simple-raytracer/src/ppm_generator.cpp
+iostream
+-
+colour.hpp
+/home/seanballais/Code/Projects/simple-raytracer/src/colour.hpp
+vec3.hpp
+/home/seanballais/Code/Projects/simple-raytracer/src/vec3.hpp
+
+/home/seanballais/Code/Projects/simple-raytracer/src/vec3.hpp
+

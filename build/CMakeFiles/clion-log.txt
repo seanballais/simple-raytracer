@@ -1,0 +1,4 @@
+/opt/JetBrains/Toolbox/apps/CLion/ch-0/203.6682.181/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/seanballais/Code/Projects/simple-raytracer
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/seanballais/Code/Projects/simple-raytracer/build
