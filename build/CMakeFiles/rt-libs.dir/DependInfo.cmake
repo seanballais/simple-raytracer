@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/seanballais/Code/Projects/simple-raytracer/src/colour.cpp" "/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles/rt-libs.dir/src/colour.cpp.o"
+  "/home/seanballais/Code/Projects/simple-raytracer/src/ray.cpp" "/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles/rt-libs.dir/src/ray.cpp.o"
   "/home/seanballais/Code/Projects/simple-raytracer/src/utils.cpp" "/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles/rt-libs.dir/src/utils.cpp.o"
   "/home/seanballais/Code/Projects/simple-raytracer/src/vec3.cpp" "/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles/rt-libs.dir/src/vec3.cpp.o"
   )

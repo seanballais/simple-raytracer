@@ -1,35 +1,51 @@
 #include <cmath>
+#include <iostream>
 
 #include "vec3.hpp"
 
-Vec3::Vec3() : x(0.0), y(0.0), z(0.0) {}
+Vec3::Vec3() : m_x(0.0), m_y(0.0), m_z(0.0) {}
 
 Vec3::Vec3(double x, double y, double z)
-  : x(x), y(y), z(z) {}
+  : m_x(x), m_y(y), m_z(z) {}
+
+double Vec3::x() const
+{
+  return m_x;
+}
+
+double Vec3::y() const
+{
+  return m_y;
+}
+
+double Vec3::z() const
+{
+  return m_z;
+}
 
 Vec3 Vec3::operator+(const Vec3& v) const
 {
-  return Vec3(x + v.x, y + v.y, z + v.z);
+  return Vec3(m_x + v.x(), m_y + v.y(), m_z + v.z());
 }
 
 Vec3 Vec3::operator-() const
 {
-  return Vec3(-x, -y, -z);
+  return Vec3(-m_x, -m_y, -m_z);
 }
 
 Vec3 Vec3::operator-(const Vec3& v) const
 {
-  return Vec3(x - v.x, y - v.y, z - v.z);
+  return Vec3(m_x - v.x(), m_y - v.y(), m_z - v.z());
 }
 
 Vec3 Vec3::operator*(const Vec3& v) const
 {
-  return Vec3(x * v.x, y * v.y, z * v.z);
+  return Vec3(m_x * v.x(), m_y * v.y(), m_z * v.z());
 }
 
 Vec3 Vec3::operator*(const double k) const
 {
-  return Vec3(x * k, y * k, z * k);
+  return Vec3(m_x * k, m_y * k, m_z * k);
 }
 
 Vec3 Vec3::operator/(const double k) const
@@ -39,18 +55,18 @@ Vec3 Vec3::operator/(const double k) const
 
 Vec3& Vec3::operator+=(const Vec3 &v)
 {
-  x += v.x;
-  y += v.y;
-  z += v.z;
+  m_x += v.x();
+  m_y += v.y();
+  m_z += v.z();
 
   return *this;
 }
 
 Vec3& Vec3::operator*=(const double k)
 {
-  x *= k;
-  y *= k;
-  z *= k;
+  m_x *= k;
+  m_y *= k;
+  m_z *= k;
 
   return *this;
 }
@@ -70,5 +86,15 @@ double Vec3::length() const
 
 double Vec3::length_squared() const
 {
-  return (x * x) + (y * y) + (z * z);
+  return (m_x * m_x) + (m_y * m_y) + (m_z * m_z);
+}
+
+inline std::ostream& operator<<(std::ostream& out, const Vec3 &v)
+{
+  return out << v.x() << " " << v.y() << " " << v.z();
+}
+
+inline Vec3 operator*(double k, const Vec3& v)
+{
+  return v * k;
 }

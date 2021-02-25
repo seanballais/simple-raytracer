@@ -14,6 +14,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -stdlib=libc++")
 
 add_library(rt-libs
     src/colour.cpp
+    src/ray.cpp
     src/vec3.cpp
     src/utils.cpp
 )

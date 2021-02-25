@@ -9,6 +9,8 @@
 /home/seanballais/Code/Projects/simple-raytracer/src/colour.cpp
 colour.hpp
 /home/seanballais/Code/Projects/simple-raytracer/src/colour.hpp
+vec3.hpp
+/home/seanballais/Code/Projects/simple-raytracer/src/vec3.hpp
 
 /home/seanballais/Code/Projects/simple-raytracer/src/colour.hpp
 iostream
@@ -17,24 +19,16 @@ vec3.hpp
 /home/seanballais/Code/Projects/simple-raytracer/src/vec3.hpp
 
 /home/seanballais/Code/Projects/simple-raytracer/src/utils.cpp
-iostream
--
 vec3.hpp
 /home/seanballais/Code/Projects/simple-raytracer/src/vec3.hpp
 utils.hpp
 /home/seanballais/Code/Projects/simple-raytracer/src/utils.hpp
 
 /home/seanballais/Code/Projects/simple-raytracer/src/utils.hpp
+vec3.hpp
+/home/seanballais/Code/Projects/simple-raytracer/src/vec3.hpp
+
+/home/seanballais/Code/Projects/simple-raytracer/src/vec3.hpp
 iostream
 -
-vec3.hpp
-/home/seanballais/Code/Projects/simple-raytracer/src/vec3.hpp
-
-/home/seanballais/Code/Projects/simple-raytracer/src/vec3.cpp
-cmath
--
-vec3.hpp
-/home/seanballais/Code/Projects/simple-raytracer/src/vec3.hpp
-
-/home/seanballais/Code/Projects/simple-raytracer/src/vec3.hpp
 

@@ -210,6 +210,33 @@ src/ppm_generator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ppm-generator.dir/build.make CMakeFiles/ppm-generator.dir/src/ppm_generator.cpp.s
 .PHONY : src/ppm_generator.cpp.s
 
+src/ray.o: src/ray.cpp.o
+
+.PHONY : src/ray.o
+
+# target to build an object file
+src/ray.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rt-libs.dir/build.make CMakeFiles/rt-libs.dir/src/ray.cpp.o
+.PHONY : src/ray.cpp.o
+
+src/ray.i: src/ray.cpp.i
+
+.PHONY : src/ray.i
+
+# target to preprocess a source file
+src/ray.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rt-libs.dir/build.make CMakeFiles/rt-libs.dir/src/ray.cpp.i
+.PHONY : src/ray.cpp.i
+
+src/ray.s: src/ray.cpp.s
+
+.PHONY : src/ray.s
+
+# target to generate assembly for a file
+src/ray.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rt-libs.dir/build.make CMakeFiles/rt-libs.dir/src/ray.cpp.s
+.PHONY : src/ray.cpp.s
+
 src/utils.o: src/utils.cpp.o
 
 .PHONY : src/utils.o
@@ -280,6 +307,9 @@ help:
 	@echo "... src/ppm_generator.o"
 	@echo "... src/ppm_generator.i"
 	@echo "... src/ppm_generator.s"
+	@echo "... src/ray.o"
+	@echo "... src/ray.i"
+	@echo "... src/ray.s"
 	@echo "... src/utils.o"
 	@echo "... src/utils.i"
 	@echo "... src/utils.s"

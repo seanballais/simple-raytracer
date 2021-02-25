@@ -135,6 +135,12 @@
 		<Unit filename="/home/seanballais/Code/Projects/simple-raytracer/src/ppm_generator.cpp">
 			<Option target="ppm-generator"/>
 		</Unit>
+		<Unit filename="/home/seanballais/Code/Projects/simple-raytracer/src/ray.cpp">
+			<Option target="rt-libs"/>
+		</Unit>
+		<Unit filename="/home/seanballais/Code/Projects/simple-raytracer/src/ray.hpp">
+			<Option target="rt-libs"/>
+		</Unit>
 		<Unit filename="/home/seanballais/Code/Projects/simple-raytracer/src/utils.cpp">
 			<Option target="rt-libs"/>
 		</Unit>

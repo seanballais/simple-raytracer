@@ -1,2 +1,2 @@
-/usr/bin/ar qc librt-libs.a  CMakeFiles/rt-libs.dir/src/colour.cpp.o CMakeFiles/rt-libs.dir/src/vec3.cpp.o CMakeFiles/rt-libs.dir/src/utils.cpp.o
+/usr/bin/ar qc librt-libs.a  CMakeFiles/rt-libs.dir/src/colour.cpp.o CMakeFiles/rt-libs.dir/src/ray.cpp.o CMakeFiles/rt-libs.dir/src/vec3.cpp.o CMakeFiles/rt-libs.dir/src/utils.cpp.o
 /usr/bin/ranlib librt-libs.a

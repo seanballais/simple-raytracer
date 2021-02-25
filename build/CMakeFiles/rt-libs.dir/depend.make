@@ -5,6 +5,10 @@ CMakeFiles/rt-libs.dir/src/colour.cpp.o: ../src/colour.cpp
 CMakeFiles/rt-libs.dir/src/colour.cpp.o: ../src/colour.hpp
 CMakeFiles/rt-libs.dir/src/colour.cpp.o: ../src/vec3.hpp
 
+CMakeFiles/rt-libs.dir/src/ray.cpp.o: ../src/ray.cpp
+CMakeFiles/rt-libs.dir/src/ray.cpp.o: ../src/ray.hpp
+CMakeFiles/rt-libs.dir/src/ray.cpp.o: ../src/vec3.hpp
+
 CMakeFiles/rt-libs.dir/src/utils.cpp.o: ../src/utils.cpp
 CMakeFiles/rt-libs.dir/src/utils.cpp.o: ../src/utils.hpp
 CMakeFiles/rt-libs.dir/src/utils.cpp.o: ../src/vec3.hpp

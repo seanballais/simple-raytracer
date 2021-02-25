@@ -101,7 +101,7 @@ CMakeFiles/ppm-generator.dir/all: CMakeFiles/rt-libs.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ppm-generator.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ppm-generator.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles 0
 .PHONY : CMakeFiles/ppm-generator.dir/rule
@@ -123,12 +123,12 @@ CMakeFiles/ppm-generator.dir/clean:
 CMakeFiles/rt-libs.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rt-libs.dir/build.make CMakeFiles/rt-libs.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rt-libs.dir/build.make CMakeFiles/rt-libs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles --progress-num=3,4,5,6 "Built target rt-libs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles --progress-num=3,4,5,6,7 "Built target rt-libs"
 .PHONY : CMakeFiles/rt-libs.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/rt-libs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/rt-libs.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles 0
 .PHONY : CMakeFiles/rt-libs.dir/rule

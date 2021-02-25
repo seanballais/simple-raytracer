@@ -90,9 +90,22 @@ CMakeFiles/rt-libs.dir/src/colour.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/rt-libs.dir/src/colour.cpp.s"
 	/usr/bin/clang++-11 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/seanballais/Code/Projects/simple-raytracer/src/colour.cpp -o CMakeFiles/rt-libs.dir/src/colour.cpp.s
 
+CMakeFiles/rt-libs.dir/src/ray.cpp.o: CMakeFiles/rt-libs.dir/flags.make
+CMakeFiles/rt-libs.dir/src/ray.cpp.o: ../src/ray.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/rt-libs.dir/src/ray.cpp.o"
+	/usr/bin/clang++-11  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/rt-libs.dir/src/ray.cpp.o -c /home/seanballais/Code/Projects/simple-raytracer/src/ray.cpp
+
+CMakeFiles/rt-libs.dir/src/ray.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/rt-libs.dir/src/ray.cpp.i"
+	/usr/bin/clang++-11 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/seanballais/Code/Projects/simple-raytracer/src/ray.cpp > CMakeFiles/rt-libs.dir/src/ray.cpp.i
+
+CMakeFiles/rt-libs.dir/src/ray.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/rt-libs.dir/src/ray.cpp.s"
+	/usr/bin/clang++-11 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/seanballais/Code/Projects/simple-raytracer/src/ray.cpp -o CMakeFiles/rt-libs.dir/src/ray.cpp.s
+
 CMakeFiles/rt-libs.dir/src/vec3.cpp.o: CMakeFiles/rt-libs.dir/flags.make
 CMakeFiles/rt-libs.dir/src/vec3.cpp.o: ../src/vec3.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/rt-libs.dir/src/vec3.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/rt-libs.dir/src/vec3.cpp.o"
 	/usr/bin/clang++-11  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/rt-libs.dir/src/vec3.cpp.o -c /home/seanballais/Code/Projects/simple-raytracer/src/vec3.cpp
 
 CMakeFiles/rt-libs.dir/src/vec3.cpp.i: cmake_force
@@ -105,7 +118,7 @@ CMakeFiles/rt-libs.dir/src/vec3.cpp.s: cmake_force
 
 CMakeFiles/rt-libs.dir/src/utils.cpp.o: CMakeFiles/rt-libs.dir/flags.make
 CMakeFiles/rt-libs.dir/src/utils.cpp.o: ../src/utils.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/rt-libs.dir/src/utils.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/rt-libs.dir/src/utils.cpp.o"
 	/usr/bin/clang++-11  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/rt-libs.dir/src/utils.cpp.o -c /home/seanballais/Code/Projects/simple-raytracer/src/utils.cpp
 
 CMakeFiles/rt-libs.dir/src/utils.cpp.i: cmake_force
@@ -119,6 +132,7 @@ CMakeFiles/rt-libs.dir/src/utils.cpp.s: cmake_force
 # Object files for target rt-libs
 rt__libs_OBJECTS = \
 "CMakeFiles/rt-libs.dir/src/colour.cpp.o" \
+"CMakeFiles/rt-libs.dir/src/ray.cpp.o" \
 "CMakeFiles/rt-libs.dir/src/vec3.cpp.o" \
 "CMakeFiles/rt-libs.dir/src/utils.cpp.o"
 
@@ -126,11 +140,12 @@ rt__libs_OBJECTS = \
 rt__libs_EXTERNAL_OBJECTS =
 
 librt-libs.a: CMakeFiles/rt-libs.dir/src/colour.cpp.o
+librt-libs.a: CMakeFiles/rt-libs.dir/src/ray.cpp.o
 librt-libs.a: CMakeFiles/rt-libs.dir/src/vec3.cpp.o
 librt-libs.a: CMakeFiles/rt-libs.dir/src/utils.cpp.o
 librt-libs.a: CMakeFiles/rt-libs.dir/build.make
 librt-libs.a: CMakeFiles/rt-libs.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX static library librt-libs.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library librt-libs.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/rt-libs.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/rt-libs.dir/link.txt --verbose=$(VERBOSE)
 
