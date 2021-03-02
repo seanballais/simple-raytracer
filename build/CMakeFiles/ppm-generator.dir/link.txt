@@ -1,1 +1,0 @@
-/usr/bin/clang++-11   -stdlib=libc++ -g   CMakeFiles/ppm-generator.dir/src/ppm_generator.cpp.o  -o ppm-generator  librt-libs.a 

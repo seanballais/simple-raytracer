@@ -88,13 +88,3 @@ double Vec3::length_squared() const
 {
   return (m_x * m_x) + (m_y * m_y) + (m_z * m_z);
 }
-
-inline std::ostream& operator<<(std::ostream& out, const Vec3 &v)
-{
-  return out << v.x() << " " << v.y() << " " << v.z();
-}
-
-inline Vec3 operator*(double k, const Vec3& v)
-{
-  return v * k;
-}

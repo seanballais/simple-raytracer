@@ -32,8 +32,15 @@ private:
   double m_z;
 };
 
-inline std::ostream& operator<<(std::ostream& out, const Vec3 &v);
-inline Vec3 operator*(double k, const Vec3& v);
+inline std::ostream& operator<<(std::ostream& out, const Vec3 &v)
+{
+  return out << v.x() << " " << v.y() << " " << v.z();
+}
+
+inline Vec3 operator*(double k, const Vec3& v)
+{
+  return v * k;
+}
 
 using Point3 = Vec3;
 using Colour = Vec3;

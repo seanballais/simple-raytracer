@@ -15,14 +15,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -stdlib=libc++")
 add_library(rt-libs
     src/colour.cpp
     src/ray.cpp
+    src/raytracing.cpp
     src/vec3.cpp
-    src/utils.cpp
 )
 
-add_executable(ppm-generator
-    src/ppm_generator.cpp
+add_executable(main
+    src/main.cpp
 )
 
-target_link_libraries(ppm-generator
+target_link_libraries(main
     rt-libs
 )

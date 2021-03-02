@@ -1,4 +1,0 @@
-/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles/rebuild_cache.dir
-/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles/ppm-generator.dir
-/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles/edit_cache.dir
-/home/seanballais/Code/Projects/simple-raytracer/build/CMakeFiles/rt-libs.dir
