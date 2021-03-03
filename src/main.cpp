@@ -25,7 +25,7 @@ int main()
 
   for (int j = imageHeight - 1; j >= 0; j--) {
     std::cerr << "\rScanlines produced: "
-              << j + 1 << " / " << imageHeight << std::flush;
+              << imageHeight - j << " / " << imageHeight << std::flush;
     for (int i = 0; i < imageWidth; i++) {
       double u = static_cast<double>(i) / (imageWidth - 1);
       double v = static_cast<double>(j) / (imageHeight - 1);
