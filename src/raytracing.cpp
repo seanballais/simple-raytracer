@@ -8,15 +8,14 @@
 double sphereHitLocation(const Point3& center, double radius, const Ray& ray)
 {
   Vec3 rayOriginToSphereCenter = ray.origin() - center;
-  double a = dot(ray.direction(), ray.direction());
-  double b = 2.0 * dot(ray.direction(), rayOriginToSphereCenter);
-  double c = dot(rayOriginToSphereCenter, rayOriginToSphereCenter)
-             - (radius * radius);
-  double discriminant = (b * b) - (4 * a * c);
+  double a = ray.direction().length_squared();
+  double halfB = dot(ray.direction(), rayOriginToSphereCenter);
+  double c = rayOriginToSphereCenter.length_squared() - (radius * radius);
+  double discriminant = (halfB * halfB) - (a * c);
   if (discriminant < 0.0) {
     return -1.0;
   } else {
-    return (-b - std::sqrt(discriminant)) / (2.0 * a);
+    return (-halfB - std::sqrt(discriminant)) / a;
   }
 }
 
