@@ -14,6 +14,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -stdlib=libc++")
 
 add_library(rt-libs
     src/colour.cpp
+    src/HitRecord.cpp
+    src/Hittable.hpp
+    src/Sphere.cpp
     src/ray.cpp
     src/raytracing.cpp
     src/vec3.cpp
