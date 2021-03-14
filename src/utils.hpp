@@ -1,6 +1,9 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
+#include <random>
+
+#include "constants.hpp"
 #include "vec3.hpp"
 
 inline double dot(const Vec3& u, const Vec3& v)
@@ -18,6 +21,29 @@ inline Vec3 cross(const Vec3& u, const Vec3& v)
 inline Vec3 unitVector(const Vec3& v)
 {
   return v / v.length();
+}
+
+inline double degToRad(double degrees)
+{
+  return (degrees * pi) / 180.0;
+}
+
+inline double randomDouble()
+{
+  static std::uniform_real_distribution<double> distribution(0.0, 1.0);
+  static std::mt19937 generator;
+  return distribution(generator);
+}
+
+inline double clamp(double x, double min, double max)
+{
+  if (x < min) {
+    return min;
+  } else if (x > max) {
+    return max;
+  }
+
+  return x;
 }
 
 #endif

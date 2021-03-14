@@ -8,6 +8,7 @@
 class HitRecord
 {
 public:
+  HitRecord();
   HitRecord(Point3 p, Vec3 outwardNormal, double t, const Ray& incidentRay);
 
   Point3 p();

@@ -3,6 +3,8 @@
 #include "utils.hpp"
 #include "vec3.hpp"
 
+HitRecord::HitRecord() {}
+
 HitRecord::HitRecord(Point3 p,
                      Vec3 outwardNormal,
                      double t,

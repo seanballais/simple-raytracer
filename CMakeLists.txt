@@ -13,9 +13,12 @@ set(CMAKE_CXX_EXTENSIONS        OFF)
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -stdlib=libc++")
 
 add_library(rt-libs
+    src/Camera.cpp
     src/colour.cpp
+    src/constants.hpp
     src/HitRecord.cpp
     src/Hittable.hpp
+    src/HittableList.cpp
     src/Sphere.cpp
     src/ray.cpp
     src/raytracing.cpp
