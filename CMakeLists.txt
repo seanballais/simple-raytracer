@@ -22,6 +22,7 @@ add_library(rt-libs
     src/Sphere.cpp
     src/ray.cpp
     src/raytracing.cpp
+    src/utils.cpp
     src/vec3.cpp
 )
 

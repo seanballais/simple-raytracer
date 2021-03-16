@@ -14,35 +14,11 @@ int main()
   constexpr int imageWidth = 400;
   constexpr int imageHeight = static_cast<int>(imageWidth / aspectRatio);
   constexpr int numSamplesPerPixel = 100;
+  constexpr int maxRayBounceDepth = 50;
 
   // World
   HittableList world;
-  //world.add(std::make_shared<Sphere>(Point3(0.0, 0.0, -1.0), 0.5));
-
-  // Left side pi stand.
-  world.add(std::make_shared<Sphere>(Point3(-0.4,  -0.35,  -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3(-0.35, -0.2,   -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3(-0.31, -0.05,  -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3(-0.28,  0.1,   -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3(-0.26,  0.25,  -1.0), 0.1));
-
-  // Right side pi stand.
-  world.add(std::make_shared<Sphere>(Point3(0.4,  -0.35,  -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3(0.35, -0.2,   -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3(0.31, -0.05,  -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3(0.28,  0.1,   -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3(0.26,  0.25,  -1.0), 0.1));
-
-  // Top arc.
-  world.add(std::make_shared<Sphere>(Point3(-0.65, 0.3,  -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3(-0.5,  0.4,  -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3(-0.35, 0.4,  -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3(-0.2,  0.4,  -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3(-0.05, 0.4,  -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3( 0.1,  0.4,  -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3( 0.25, 0.4,  -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3( 0.4,  0.4,  -1.0), 0.1));
-  world.add(std::make_shared<Sphere>(Point3( 0.55, 0.4,  -1.0), 0.1));
+  world.add(std::make_shared<Sphere>(Point3(0.0, 0.0, -1.0), 0.5));
 
   // Ground sphere.
   world.add(std::make_shared<Sphere>(Point3( 0.0, -100.5, -1.0), 100.0));
@@ -61,7 +37,7 @@ int main()
         double u = (i + randomDouble()) / (imageWidth - 1);
         double v = (j + randomDouble()) / (imageHeight - 1);
         Ray ray = camera.getRay(u, v);
-        pixelColour += rayColour(ray, world);
+        pixelColour += rayColour(ray, world, maxRayBounceDepth);
       }
 
       // Sampling is done in a vertically-flipped manner. Saving it to PPM

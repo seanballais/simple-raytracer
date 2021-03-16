@@ -1,7 +1,7 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-#include <random>
+#include <cstdlib>
 
 #include "constants.hpp"
 #include "vec3.hpp"
@@ -28,11 +28,14 @@ inline double degToRad(double degrees)
   return (degrees * pi) / 180.0;
 }
 
+inline double randomDouble(double min, double max)
+{
+  return min + (max - min) * (std::rand() / (RAND_MAX + 1.0));
+}
+
 inline double randomDouble()
 {
-  static std::uniform_real_distribution<double> distribution(0.0, 1.0);
-  static std::mt19937 generator;
-  return distribution(generator);
+  return randomDouble(0.0, 1.0);
 }
 
 inline double clamp(double x, double min, double max)
@@ -45,5 +48,19 @@ inline double clamp(double x, double min, double max)
 
   return x;
 }
+
+inline Vec3 getRandomVec3()
+{
+  return Vec3(randomDouble(), randomDouble(), randomDouble());
+}
+
+inline Vec3 getRandomVec3(double min, double max)
+{
+  return Vec3(randomDouble(min, max),
+              randomDouble(min, max),
+              randomDouble(min, max));
+}
+
+Vec3 getRandomPointInUnitSphere();
 
 #endif
