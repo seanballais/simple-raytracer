@@ -12,3 +12,18 @@ Vec3 getRandomPointInUnitSphere()
     return p;
   }
 }
+
+Vec3 getRandomUnitVector()
+{
+  return unitVector(getRandomPointInUnitSphere());
+}
+
+Vec3 getRandomVectorInHemisphere(const Vec3& normal)
+{
+  Vec3 vecInUnitSphere = getRandomPointInUnitSphere();
+  if (dot(vecInUnitSphere, normal) > 0.0) {
+    return vecInUnitSphere;
+  } else {
+    return -vecInUnitSphere;
+  }
+}

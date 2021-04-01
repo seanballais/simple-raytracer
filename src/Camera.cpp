@@ -12,7 +12,8 @@ Camera::Camera()
   m_origin = Point3(0.0, 0.0, 0.0);
   m_horizontalLength = Vec3(viewportWidth, 0.0, 0.0);
   m_verticalHeight = Vec3(0.0, viewportHeight, 0.0);
-  m_lowerLeftCorner = ((m_origin - m_horizontalLength) / 2)
+  m_lowerLeftCorner = m_origin
+                      - (m_horizontalLength / 2)
                       - (m_verticalHeight / 2)
                       - Vec3(0.0, 0.0, focalLength);
 }

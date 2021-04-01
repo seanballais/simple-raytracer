@@ -62,5 +62,7 @@ inline Vec3 getRandomVec3(double min, double max)
 }
 
 Vec3 getRandomPointInUnitSphere();
+Vec3 getRandomUnitVector();
+Vec3 getRandomVectorInHemisphere(const Vec3& normal);
 
 #endif
