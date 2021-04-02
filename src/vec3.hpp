@@ -25,6 +25,7 @@ public:
 
   double length() const;
   double length_squared() const;
+  bool isNearZero() const;
 
 private:
   double m_x;

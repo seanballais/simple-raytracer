@@ -19,6 +19,9 @@ add_library(rt-libs
     src/HitRecord.cpp
     src/Hittable.hpp
     src/HittableList.cpp
+    src/LambertianMaterial.cpp
+    src/Material.hpp
+    src/MetalMaterial.cpp
     src/Sphere.cpp
     src/ray.cpp
     src/raytracing.cpp

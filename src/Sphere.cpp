@@ -1,7 +1,9 @@
 #include <cmath>
+#include <memory>
 
 #include "HitRecord.hpp"
 #include "Hittable.hpp"
+#include "Material.hpp"
 #include "Sphere.hpp"
 #include "ray.hpp"
 #include "vec3.hpp"
@@ -9,9 +11,12 @@
 
 Sphere::Sphere() {}
 
-Sphere::Sphere(Point3 centerPoint, double radius)
+Sphere::Sphere(Point3 centerPoint,
+               double radius,
+               std::shared_ptr<Material> material)
   : m_centerPoint(centerPoint)
-  , m_radius(radius) {}
+  , m_radius(radius)
+  , m_materialPtr(material) {}
 
 bool
 Sphere::hit(const Ray& ray, double tMin, double tMax, HitRecord& record) const
@@ -39,7 +44,7 @@ Sphere::hit(const Ray& ray, double tMin, double tMax, HitRecord& record) const
 
   Point3 intersectionPoint = ray.at(t);
   Vec3 outwardNormal = (intersectionPoint - m_centerPoint) / m_radius;
-  record = HitRecord(intersectionPoint, outwardNormal, t, ray);
+  record = HitRecord(intersectionPoint, outwardNormal, m_materialPtr, t, ray);
 
   return true;
 }
@@ -52,4 +57,9 @@ Point3 Sphere::centerPoint() const
 double Sphere::radius() const
 {
   return m_radius;
+}
+
+std::shared_ptr<Material> Sphere::material() const
+{
+  return m_materialPtr;
 }

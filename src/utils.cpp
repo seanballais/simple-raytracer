@@ -27,3 +27,8 @@ Vec3 getRandomVectorInHemisphere(const Vec3& normal)
     return -vecInUnitSphere;
   }
 }
+
+Vec3 reflectVec3(const Vec3& v, const Vec3& normal)
+{
+  return v - (2 * dot(v, normal) * normal);
+}

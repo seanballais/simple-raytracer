@@ -4,6 +4,8 @@
 #include "Camera.hpp"
 #include "colour.hpp"
 #include "HittableList.hpp"
+#include "LambertianMaterial.hpp"
+#include "MetalMaterial.hpp"
 #include "raytracing.hpp"
 #include "Sphere.hpp"
 #include "vec3.hpp"
@@ -18,10 +20,24 @@ int main()
 
   // World
   HittableList world;
-  world.add(std::make_shared<Sphere>(Point3(0.0, 0.0, -1.0), 0.5));
 
-  // Ground sphere.
-  world.add(std::make_shared<Sphere>(Point3( 0.0, -100.5, -1.0), 100.0));
+  auto groundMaterial = std::make_shared<LambertianMaterial>(
+    Colour(0.8, 0.8, 0.0));
+  auto centerMaterial = std::make_shared<LambertianMaterial>(
+    Colour(0.7, 0.3, 0.3));
+  auto leftMaterial = std::make_shared<MetalMaterial>(
+    Colour(0.8, 0.8, 0.8), 0.3);
+  auto rightMaterial = std::make_shared<MetalMaterial>(
+    Colour(0.8, 0.6, 0.2), 0.1);
+
+  world.add(std::make_shared<Sphere>(
+    Point3( 0.0, -100.5, -1.0), 100.0, groundMaterial));
+  world.add(std::make_shared<Sphere>(
+    Point3( 0.0,    0.0, -1.0),   0.5, centerMaterial));
+  world.add(std::make_shared<Sphere>(
+    Point3(-1.0,    0.0, -1.0),   0.5, leftMaterial));
+  world.add(std::make_shared<Sphere>(
+    Point3( 1.0,    0.0, -1.0),   0.5, rightMaterial));
 
   // Camera
   Camera camera;

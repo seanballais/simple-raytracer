@@ -88,3 +88,11 @@ double Vec3::length_squared() const
 {
   return (m_x * m_x) + (m_y * m_y) + (m_z * m_z);
 }
+
+bool Vec3::isNearZero() const
+{
+  constexpr double zeroThreshold = 1e-8;
+  return (std::fabs(m_x) < zeroThreshold)
+         && (std::fabs(m_y) < zeroThreshold)
+         && (std::fabs(m_z) < zeroThreshold);
+}

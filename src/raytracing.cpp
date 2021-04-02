@@ -19,11 +19,16 @@ Colour rayColour(const Ray& ray,
   }
 
   if (world.hit(ray, 0.001, infinity, hitRecord)) {
-    Point3 target = hitRecord.p()
-                    + hitRecord.normal()
-                    + getRandomUnitVector();
-    return 0.5 * rayColour(
-      Ray(hitRecord.p(), target - hitRecord.p()), world, rayBounceDepth - 1);
+    Ray scatteredRay;
+    Colour attenuation;
+    if (hitRecord.materialPtr()->scatter(ray,
+                                         hitRecord,
+                                         attenuation,
+                                         scatteredRay)) {
+      return attenuation * rayColour(scatteredRay, world, rayBounceDepth - 1);
+    }
+
+    return Colour(0.0, 0.0, 0.0);
   }
 
   Vec3 unitDirection = unitVector(ray.direction());
