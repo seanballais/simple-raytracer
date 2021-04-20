@@ -7,9 +7,13 @@
 class Camera
 {
 public:
-  Camera();
+  Camera(Point3 lookFrom,
+         Point3 lookAt,
+         Vec3 viewUp,
+         double verticalFOV,
+         double aspectRatio);
 
-  Ray getRay(double u, double v) const;
+  Ray getRay(double s, double t) const;
 
 private:
   Point3 m_origin;

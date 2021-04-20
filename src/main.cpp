@@ -3,6 +3,7 @@
 
 #include "Camera.hpp"
 #include "colour.hpp"
+#include "DielectricMaterial.hpp"
 #include "HittableList.hpp"
 #include "LambertianMaterial.hpp"
 #include "MetalMaterial.hpp"
@@ -24,11 +25,10 @@ int main()
   auto groundMaterial = std::make_shared<LambertianMaterial>(
     Colour(0.8, 0.8, 0.0));
   auto centerMaterial = std::make_shared<LambertianMaterial>(
-    Colour(0.7, 0.3, 0.3));
-  auto leftMaterial = std::make_shared<MetalMaterial>(
-    Colour(0.8, 0.8, 0.8), 0.3);
+    Colour(0.1, 0.2, 0.5));
+  auto leftMaterial = std::make_shared<DielectricMaterial>(1.5);
   auto rightMaterial = std::make_shared<MetalMaterial>(
-    Colour(0.8, 0.6, 0.2), 0.1);
+    Colour(0.8, 0.6, 0.2), 1.0);
 
   world.add(std::make_shared<Sphere>(
     Point3( 0.0, -100.5, -1.0), 100.0, groundMaterial));
@@ -37,10 +37,16 @@ int main()
   world.add(std::make_shared<Sphere>(
     Point3(-1.0,    0.0, -1.0),   0.5, leftMaterial));
   world.add(std::make_shared<Sphere>(
+    Point3(-1.0,    0.0, -1.0),  -0.4, leftMaterial));
+  world.add(std::make_shared<Sphere>(
     Point3( 1.0,    0.0, -1.0),   0.5, rightMaterial));
 
   // Camera
-  Camera camera;
+  Camera camera(Point3(-2.0, 2.0,  1.0),
+                Point3( 0.0, 0.0, -1.0),
+                Vec3(0.0, 1.0, 0.0),
+                90.0,
+                aspectRatio);
 
   std::cout << "P3\n" << imageWidth << " " << imageHeight << "\n255\n";
 

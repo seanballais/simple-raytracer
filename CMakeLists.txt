@@ -16,6 +16,7 @@ add_library(rt-libs
     src/Camera.cpp
     src/colour.cpp
     src/constants.hpp
+    src/DielectricMaterial.cpp
     src/HitRecord.cpp
     src/Hittable.hpp
     src/HittableList.cpp

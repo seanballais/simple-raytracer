@@ -65,5 +65,7 @@ Vec3 getRandomPointInUnitSphere();
 Vec3 getRandomUnitVector();
 Vec3 getRandomVectorInHemisphere(const Vec3& normal);
 Vec3 reflectVec3(const Vec3& v, const Vec3& normal);
+Vec3 refractVec3(const Vec3& uv, const Vec3& normal, double etaiOverEtat);
+double reflectance(double cosine, double refIdx);
 
 #endif
