@@ -5,7 +5,6 @@
 
 #include "Material.hpp"
 #include "ray.hpp"
-#include "utils.hpp"
 #include "vec3.hpp"
 
 class HitRecord

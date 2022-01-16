@@ -1,7 +1,7 @@
 #include <cmath>
 
-#include "vec3.hpp"
 #include "utils.hpp"
+#include "vec3.hpp"
 
 Vec3 getRandomPointInUnitSphere()
 {
@@ -18,6 +18,18 @@ Vec3 getRandomPointInUnitSphere()
 Vec3 getRandomUnitVector()
 {
   return unitVector(getRandomPointInUnitSphere());
+}
+
+Vec3 getRandomVectorInUnitDisk()
+{
+  while (true) {
+    Vec3 p = Vec3(randomDouble(-1.0, 1.0), randomDouble(-1.0, 1.0), 0.0);
+    if (p.length_squared() >= 1.0) {
+      continue;
+    } else {
+      return p;
+    }
+  }
 }
 
 Vec3 getRandomVectorInHemisphere(const Vec3& normal)

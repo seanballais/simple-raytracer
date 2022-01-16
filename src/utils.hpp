@@ -4,6 +4,7 @@
 #include <cstdlib>
 
 #include "constants.hpp"
+#include "HittableList.hpp"
 #include "vec3.hpp"
 
 inline double dot(const Vec3& u, const Vec3& v)
@@ -63,6 +64,7 @@ inline Vec3 getRandomVec3(double min, double max)
 
 Vec3 getRandomPointInUnitSphere();
 Vec3 getRandomUnitVector();
+Vec3 getRandomVectorInUnitDisk();
 Vec3 getRandomVectorInHemisphere(const Vec3& normal);
 Vec3 reflectVec3(const Vec3& v, const Vec3& normal);
 Vec3 refractVec3(const Vec3& uv, const Vec3& normal, double etaiOverEtat);

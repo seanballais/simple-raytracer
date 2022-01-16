@@ -11,7 +11,9 @@ public:
          Point3 lookAt,
          Vec3 viewUp,
          double verticalFOV,
-         double aspectRatio);
+         double aspectRatio,
+         double aperture,
+         double focusDistance);
 
   Ray getRay(double s, double t) const;
 
@@ -20,6 +22,10 @@ private:
   Point3 m_lowerLeftCorner;
   Vec3 m_horizontalLength;
   Vec3 m_verticalHeight;
+  Vec3 m_u;
+  Vec3 m_v;
+  Vec3 m_w;
+  double m_lensRadius;
 };
 
 #endif

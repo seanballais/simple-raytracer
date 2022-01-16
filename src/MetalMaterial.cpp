@@ -1,6 +1,7 @@
 #include "HitRecord.hpp"
 #include "MetalMaterial.hpp"
 #include "ray.hpp"
+#include "utils.hpp"
 #include "vec3.hpp"
 
 MetalMaterial::MetalMaterial(const Colour& albedo, const double fuzziness)

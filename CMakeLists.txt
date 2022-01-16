@@ -24,8 +24,10 @@ add_library(rt-libs
     src/Material.hpp
     src/MetalMaterial.cpp
     src/Sphere.cpp
+    src/stb_image_write.h
     src/ray.cpp
     src/raytracing.cpp
+    src/RenderThread.cpp
     src/utils.cpp
     src/vec3.cpp
 )

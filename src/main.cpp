@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <vector>
 
 #include "Camera.hpp"
 #include "colour.hpp"
@@ -8,7 +9,9 @@
 #include "LambertianMaterial.hpp"
 #include "MetalMaterial.hpp"
 #include "raytracing.hpp"
+#include "RenderThread.hpp"
 #include "Sphere.hpp"
+#include "utils.hpp"
 #include "vec3.hpp"
 
 int main()
@@ -16,59 +19,92 @@ int main()
   constexpr double aspectRatio = 16.0 / 9.0;
   constexpr int imageWidth = 1920;
   constexpr int imageHeight = static_cast<int>(imageWidth / aspectRatio);
-  constexpr int numSamplesPerPixel = 100;
+  constexpr int numSamplesPerPixel = 500;
   constexpr int maxRayBounceDepth = 50;
 
   // World
   HittableList world;
 
   auto groundMaterial = std::make_shared<LambertianMaterial>(
-    Colour(0.8, 0.8, 0.0));
-  auto centerMaterial = std::make_shared<LambertianMaterial>(
-    Colour(0.1, 0.2, 0.5));
-  auto leftMaterial = std::make_shared<DielectricMaterial>(1.5);
-  auto rightMaterial = std::make_shared<MetalMaterial>(
-    Colour(0.8, 0.6, 0.2), 1.0);
+    Colour(0.5, 0.5, 0.5));
+  world.add(std::make_shared<Sphere>(Point3(0.0, -1000.0, 0.0),
+                                     1000.0,
+                                     groundMaterial));
 
-  world.add(std::make_shared<Sphere>(
-    Point3( 0.0, -100.5, -1.0), 100.0, groundMaterial));
-  world.add(std::make_shared<Sphere>(
-    Point3( 0.0,    0.0, -1.0),   0.5, centerMaterial));
-  world.add(std::make_shared<Sphere>(
-    Point3(-1.0,    0.0, -1.0),   0.5, leftMaterial));
-  world.add(std::make_shared<Sphere>(
-    Point3(-1.0,    0.0, -1.0),  -0.4, leftMaterial));
-  world.add(std::make_shared<Sphere>(
-    Point3( 1.0,    0.0, -1.0),   0.5, rightMaterial));
+  for (int i = -11; i < 11; i++) {
+    for (int j = -11; j < 11; j++) {
+      auto chooseMat = randomDouble();
+      Point3 center(i + 0.9 * randomDouble(), 0.2, j + 0.9 * randomDouble());
 
-  // Camera
-  Camera camera(Point3(-2.0, 2.0,  1.0),
-                Point3( 0.0, 0.0, -1.0),
-                Vec3(0.0, 1.0, 0.0),
-                90.0,
-                aspectRatio);
+      if ((center - Point3(4.0, 0.2, 0.0)).length() > 0.9) {
+        std::shared_ptr<Material> sphereMaterial;
 
-  std::cout << "P3\n" << imageWidth << " " << imageHeight << "\n255\n";
-
-  for (int j = imageHeight - 1; j >= 0; j--) {
-    std::cerr << "\rScanlines produced: "
-              << imageHeight - j << " / " << imageHeight << std::flush;
-    for (int i = 0; i < imageWidth; i++) {
-      Colour pixelColour(0.0, 0.0, 0.0);
-      for (int s = 0; s < numSamplesPerPixel; s++) {
-        double u = (i + randomDouble()) / (imageWidth - 1);
-        double v = (j + randomDouble()) / (imageHeight - 1);
-        Ray ray = camera.getRay(u, v);
-        pixelColour += rayColour(ray, world, maxRayBounceDepth);
+        if (chooseMat < 0.8) {
+          // Use diffuse material.
+          Vec3 albedo = getRandomVec3() * getRandomVec3();
+          sphereMaterial = std::make_shared<LambertianMaterial>(albedo);
+          world.add(std::make_shared<Sphere>(center, 0.2, sphereMaterial));
+        } else if (chooseMat < 0.95) {
+          // Use metal material.
+          Vec3 albedo = getRandomVec3(0.5, 1.0);
+          double fuzz = randomDouble(0.0, 0.5);
+          sphereMaterial = std::make_shared<MetalMaterial>(albedo, fuzz);
+          world.add(std::make_shared<Sphere>(center, 0.2, sphereMaterial));
+        } else {
+          // Use glass material.
+          sphereMaterial = std::make_shared<DielectricMaterial>(1.5);
+          world.add(std::make_shared<Sphere>(center, 0.2, sphereMaterial));
+        }
       }
-
-      // Sampling is done in a vertically-flipped manner. Saving it to PPM
-      // changes it to the correct orientation.
-      writeColour(std::cout, pixelColour, numSamplesPerPixel);
     }
   }
-  
-  std::cerr << "\nDone.\n";
+
+  auto material1 = std::make_shared<DielectricMaterial>(1.5);
+  world.add(std::make_shared<Sphere>(Point3(0.0, 1.0, 0.0), 1.0, material1));
+
+  auto material2 = std::make_shared<LambertianMaterial>(Colour(0.4, 0.2, 0.1));
+  world.add(std::make_shared<Sphere>(Point3(-4.0, 1.0, 0.0), 1.0, material2));
+
+  auto material3 = std::make_shared<MetalMaterial>(Colour(0.7, 0.6, 0.5), 0.0);
+  world.add(std::make_shared<Sphere>(Point3(4.0, 1.0, 0.0), 1.0, material3));
+
+  // Camera
+  Point3 lookFrom(13.0, 2.0, 3.0);
+  Point3 lookAt(0.0, 0.0, 0.0);
+  Vec3 viewUp(0.0, 1.0, 0.0);
+  double distanceToFocus = 10.0;
+  double aperture = 0.1;
+
+  Camera camera(lookFrom,
+                lookAt,
+                viewUp,
+                20.0,
+                aspectRatio,
+                aperture,
+                distanceToFocus);
+
+  std::cout << "Rendering image.\n";
+
+  // Let's use multithreading.
+  const int numCores = std::thread::hardware_concurrency();
+
+  // Slice up the task vertically. Each thread will render a vertical slice of
+  // the final image.
+  int chunkWidthPerThread = imageWidth / numCores;
+
+  // If the image width is not divisible by the number of cores we have, we
+  // put the remaining width to the last thread. We could spread out the
+  // remaining width to the other threads, but we'll just give it to the last
+  // thread for simplicity.
+  int chunkWidthForNthThread = chunkWidthPerThread + (imageWidth % numCores);
+
+  std::vector<RenderThread> renderThreads;
+  renderThreads.reserve(numCores);
+
+  for (int i = 0; i < numCores - 1; i++) {
+    renderThreads.emplace_back(i, chunkWidthPerThread, imageHeight);
+  }
+  renderThreads.emplace_back(numCores - 1, chunkWidthForNthThread, imageHeight);
 
   return 0;
 }
