@@ -6,6 +6,7 @@
 #include "HittableList.hpp"
 #include "ray.hpp"
 #include "raytracing.hpp"
+#include "RenderedChunk.hpp"
 #include "RenderThread.hpp"
 #include "utils.hpp"
 #include "vec3.hpp"
@@ -16,15 +17,24 @@ RenderThread::RenderThread(int id, int chunkWidth, int chunkHeight)
   , m_chunkHeight(chunkHeight)
   , m_scanlinesCompleted(0) {}
 
-std::vector<uint8_t> RenderThread::render(const HittableList& world,
-                                          const Camera& camera,
-                                          const int& numSamplesPerPixel,
-                                          const int& maxRayBounceDepth)
+RenderedChunk RenderThread::getRenderedChunk()
+{
+  return m_renderedChunk;
+}
+
+void RenderThread::render(const HittableList& world,
+                          const Camera& camera,
+                          const int& numSamplesPerPixel,
+                          const int& maxRayBounceDepth)
 {
   m_scanlinesCompleted = 0;
 
   std::vector<uint8_t> pixels;
   for (int j = m_chunkHeight - 1; j >= 0; j--) {
+    std::cout << "Render Thread " << m_id << " Progress: "
+              << m_scanlinesCompleted << "/" << m_chunkHeight
+              << "\n";
+
     for (int i = 0; i < m_chunkWidth; i++) {
       Colour pixelColour(0.0, 0.0, 0.0);
       for (int s = 0; s < numSamplesPerPixel; s++) {
@@ -50,14 +60,8 @@ std::vector<uint8_t> RenderThread::render(const HittableList& world,
       pixels.push_back(b);
     }
 
-    m_chunkHeight++;
+    m_scanlinesCompleted++;
   }
 
-  return pixels;
-}
-
-void RenderThread::printStatus()
-{
-  std::cout << "Render Thread " << m_id << " Progress: "
-            << m_scanlinesCompleted << "/" << m_chunkHeight;
+  m_renderedChunk = RenderedChunk{ m_chunkWidth, m_chunkHeight, pixels };
 }

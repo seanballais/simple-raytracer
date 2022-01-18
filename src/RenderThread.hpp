@@ -7,16 +7,17 @@
 
 #include "Camera.hpp"
 #include "HittableList.hpp"
+#include "RenderedChunk.hpp"
 
 class RenderThread
 {
 public:
   RenderThread(int id, int chunkWidth, int chunkHeight);
-  std::vector<uint8_t> render(const HittableList& world,
-                              const Camera& camera,
-                              const int& numSamplesPerPixel,
-                              const int& maxRayBounceDepth);
-  void printStatus();
+  RenderedChunk getRenderedChunk();
+  void render(const HittableList& world,
+              const Camera& camera,
+              const int& numSamplesPerPixel,
+              const int& maxRayBounceDepth);
 
 private:
   int m_id;
@@ -24,6 +25,7 @@ private:
   int m_chunkHeight;
   int m_scanlinesCompleted;
   bool m_isDone;
+  RenderedChunk m_renderedChunk;
 };
 
 #endif

@@ -1,8 +1,13 @@
 #include <iostream>
 #include <memory>
+#include <thread>
 #include <vector>
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
+
 #include "Camera.hpp"
+#include "RenderedChunk.hpp"
 #include "colour.hpp"
 #include "DielectricMaterial.hpp"
 #include "HittableList.hpp"
@@ -17,10 +22,10 @@
 int main()
 {
   constexpr double aspectRatio = 16.0 / 9.0;
-  constexpr int imageWidth = 1920;
+  constexpr int imageWidth = 320;
   constexpr int imageHeight = static_cast<int>(imageWidth / aspectRatio);
-  constexpr int numSamplesPerPixel = 500;
-  constexpr int maxRayBounceDepth = 50;
+  constexpr int numSamplesPerPixel = 100;
+  constexpr int maxRayBounceDepth = 5;
 
   // World
   HittableList world;
@@ -84,27 +89,99 @@ int main()
                 distanceToFocus);
 
   std::cout << "Rendering image.\n";
+  std::cout << "Width: " << imageWidth << "\n";
+  std::cout << "Height: " << imageHeight << "\n";
 
   // Let's use multithreading.
-  const int numCores = std::thread::hardware_concurrency();
+  const int numCores = 1;
+  std::cout << "Rendering with " << numCores << " cores...\n";
 
   // Slice up the task vertically. Each thread will render a vertical slice of
   // the final image.
   int chunkWidthPerThread = imageWidth / numCores;
+  std::cout << "Width of each chunk: " << chunkWidthPerThread << "px\n";
 
   // If the image width is not divisible by the number of cores we have, we
   // put the remaining width to the last thread. We could spread out the
   // remaining width to the other threads, but we'll just give it to the last
   // thread for simplicity.
   int chunkWidthForNthThread = chunkWidthPerThread + (imageWidth % numCores);
+  std::cout << "Width of last chunk: " << chunkWidthForNthThread << "px\n";
 
   std::vector<RenderThread> renderThreads;
   renderThreads.reserve(numCores);
 
-  for (int i = 0; i < numCores - 1; i++) {
-    renderThreads.emplace_back(i, chunkWidthPerThread, imageHeight);
+  for (int i = 0; i < numCores; i++) {
+    std::cout << "Setting up render thread #" << i << "\n";
+
+    if (i < numCores - 1) {
+      renderThreads.emplace_back(i, chunkWidthPerThread, imageHeight);
+    } else {
+      renderThreads.emplace_back(
+        numCores - 1,
+        chunkWidthForNthThread,
+        imageHeight
+      );
+    }
   }
-  renderThreads.emplace_back(numCores - 1, chunkWidthForNthThread, imageHeight);
+
+  // Place the render threads into their own std::threads.
+  std::vector<std::thread> threads;
+  threads.reserve(renderThreads.size());
+  for (int i = 0; i < renderThreads.size(); i++) {
+    threads.push_back(
+      std::thread(
+        &RenderThread::render,
+        renderThreads[i],
+        world,
+        camera,
+        numSamplesPerPixel,
+        maxRayBounceDepth
+      )
+    );
+  }
+
+  // Wait until the threads are done.
+  for (int i = 0; i < threads.size(); i++) {
+    threads[i].join();
+  }
+
+  std::cout << "Rendering done.\n";
+
+  // Stitch everything up.
+  std::cout << "Saving to PNG file...\n";
+  const int numChannels = 3; // RGB
+  int pixelIndex = 0;
+  uint8_t pixels[imageWidth * imageHeight * numChannels];
+  RenderedChunk chunks[renderThreads.size()];
+
+  for (int i = 0; i < renderThreads.size(); i++) {
+    chunks[i] = renderThreads[i].getRenderedChunk();
+  }
+
+  // TODO: Fix image saving code.
+  for (int i = 0; i < imageHeight; i++) {
+    // Note that each element in the chunk is a colour channel value.
+    for (int j = 0; j < renderThreads.size(); j++) {
+      // Get a line from each chunk.
+      int numValsToGet = chunks[j].chunkWidth * numChannels;
+      for (int k = 0; k < numValsToGet; k++) {
+        int chunkIndex = k + (chunks[j].chunkWidth * imageHeight);
+        pixels[pixelIndex] = chunks[j].render[chunkIndex];
+
+        pixelIndex++;
+      }
+    }
+  }
+
+  stbi_write_png(
+    "render.png",
+    imageWidth,
+    imageHeight,
+    numChannels,
+    pixels,
+    imageWidth * numChannels
+  );
 
   return 0;
 }
