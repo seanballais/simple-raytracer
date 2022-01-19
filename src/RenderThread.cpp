@@ -19,6 +19,7 @@ RenderThread::RenderThread(int id, int chunkWidth, int chunkHeight)
 
 RenderedChunk RenderThread::getRenderedChunk()
 {
+  std::cout << "Chunk Width: " << m_renderedChunk.chunkWidth << "\n";
   return m_renderedChunk;
 }
 
@@ -55,13 +56,18 @@ void RenderThread::render(const HittableList& world,
       g = std::sqrt(scale * g);
       b = std::sqrt(scale * b);
 
-      pixels.push_back(r);
-      pixels.push_back(g);
-      pixels.push_back(b);
+      pixels.push_back(static_cast<uint8_t>(r * 256.0));
+      pixels.push_back(static_cast<uint8_t>(g * 256.0));
+      pixels.push_back(static_cast<uint8_t>(b * 256.0));
     }
 
     m_scanlinesCompleted++;
   }
 
-  m_renderedChunk = RenderedChunk{ m_chunkWidth, m_chunkHeight, pixels };
+  RenderedChunk renderedChunk;
+  renderedChunk.chunkWidth = m_chunkWidth;
+  renderedChunk.chunkHeight = m_chunkHeight;
+  renderedChunk.render = pixels;
+
+  m_renderedChunk = renderedChunk;
 }

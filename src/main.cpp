@@ -22,7 +22,7 @@
 int main()
 {
   constexpr double aspectRatio = 16.0 / 9.0;
-  constexpr int imageWidth = 320;
+  constexpr int imageWidth = 1920;
   constexpr int imageHeight = static_cast<int>(imageWidth / aspectRatio);
   constexpr int numSamplesPerPixel = 100;
   constexpr int maxRayBounceDepth = 5;
@@ -93,7 +93,7 @@ int main()
   std::cout << "Height: " << imageHeight << "\n";
 
   // Let's use multithreading.
-  const int numCores = 1;
+  const int numCores = std::thread::hardware_concurrency();
   std::cout << "Rendering with " << numCores << " cores...\n";
 
   // Slice up the task vertically. Each thread will render a vertical slice of
@@ -132,7 +132,7 @@ int main()
     threads.push_back(
       std::thread(
         &RenderThread::render,
-        renderThreads[i],
+        &renderThreads[i],
         world,
         camera,
         numSamplesPerPixel,
@@ -156,17 +156,25 @@ int main()
   RenderedChunk chunks[renderThreads.size()];
 
   for (int i = 0; i < renderThreads.size(); i++) {
+    std::cout << "Getting chunk from render thread " << i << "...\n";
     chunks[i] = renderThreads[i].getRenderedChunk();
   }
 
   // TODO: Fix image saving code.
   for (int i = 0; i < imageHeight; i++) {
+    std::cout << "Saving line " << i << " into the image...\n";
+
     // Note that each element in the chunk is a colour channel value.
     for (int j = 0; j < renderThreads.size(); j++) {
+      std::cout << "Getting render data from chunk " << j
+                << " with a width of " << chunks[j].chunkWidth << "px...\n";
+      
       // Get a line from each chunk.
       int numValsToGet = chunks[j].chunkWidth * numChannels;
+      std::cout << "Number of values to get from chunk: "
+                << numValsToGet << "\n";
       for (int k = 0; k < numValsToGet; k++) {
-        int chunkIndex = k + (chunks[j].chunkWidth * imageHeight);
+        int chunkIndex = (chunks[j].chunkWidth * i) + k;
         pixels[pixelIndex] = chunks[j].render[chunkIndex];
 
         pixelIndex++;
