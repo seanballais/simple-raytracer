@@ -1,3 +1,4 @@
+#include <chrono>
 #include <iostream>
 #include <memory>
 #include <thread>
@@ -22,7 +23,7 @@
 int main()
 {
   constexpr double aspectRatio = 16.0 / 9.0;
-  constexpr int imageWidth = 1920;
+  constexpr int imageWidth = 320;
   constexpr int imageHeight = static_cast<int>(imageWidth / aspectRatio);
   constexpr int numSamplesPerPixel = 100;
   constexpr int maxRayBounceDepth = 5;
@@ -111,33 +112,46 @@ int main()
   std::vector<RenderThread> renderThreads;
   renderThreads.reserve(numCores);
 
+  int startingX = 0;
   for (int i = 0; i < numCores; i++) {
     std::cout << "Setting up render thread #" << i << "\n";
 
     if (i < numCores - 1) {
-      renderThreads.emplace_back(i, chunkWidthPerThread, imageHeight);
+      renderThreads.emplace_back(i,
+                                 imageWidth,
+                                 imageHeight,
+                                 startingX,
+                                 chunkWidthPerThread,
+                                 imageHeight);
     } else {
-      renderThreads.emplace_back(
-        numCores - 1,
-        chunkWidthForNthThread,
-        imageHeight
-      );
+      renderThreads.emplace_back(numCores - 1,
+                                 imageWidth,
+                                 imageHeight,
+                                 startingX,
+                                 chunkWidthForNthThread,
+                                 imageHeight);
     }
+
+    // We don't need to worry about the last chunk's width, since we're just
+    // getting the starting X position of a chunk. Only the last chunk may have
+    // a different width which cannot affect any future render thread
+    // initializations, because it's the last chunk.
+    startingX += chunkWidthPerThread;
   }
+
+  auto timeStart = std::chrono::steady_clock::now();
 
   // Place the render threads into their own std::threads.
   std::vector<std::thread> threads;
   threads.reserve(renderThreads.size());
   for (int i = 0; i < renderThreads.size(); i++) {
     threads.push_back(
-      std::thread(
-        &RenderThread::render,
-        &renderThreads[i],
-        world,
-        camera,
-        numSamplesPerPixel,
-        maxRayBounceDepth
-      )
+      std::thread(&RenderThread::render,
+                  &renderThreads[i],
+                  world,
+                  camera,
+                  numSamplesPerPixel,
+                  maxRayBounceDepth)
     );
   }
 
@@ -145,6 +159,8 @@ int main()
   for (int i = 0; i < threads.size(); i++) {
     threads[i].join();
   }
+
+  auto timeEnd = std::chrono::steady_clock::now();
 
   std::cout << "Rendering done.\n";
 
@@ -162,22 +178,16 @@ int main()
 
   // TODO: Fix image saving code.
   for (int i = 0; i < imageHeight; i++) {
-    std::cout << "Saving line " << i << " into the image...\n";
-
     // Note that each element in the chunk is a colour channel value.
     for (int j = 0; j < renderThreads.size(); j++) {
-      std::cout << "Getting render data from chunk " << j
-                << " with a width of " << chunks[j].chunkWidth << "px...\n";
       
       // Get a line from each chunk.
-      int numValsToGet = chunks[j].chunkWidth * numChannels;
-      std::cout << "Number of values to get from chunk: "
-                << numValsToGet << "\n";
-      for (int k = 0; k < numValsToGet; k++) {
-        int chunkIndex = (chunks[j].chunkWidth * i) + k;
-        pixels[pixelIndex] = chunks[j].render[chunkIndex];
-
-        pixelIndex++;
+      int startingIndex = chunks[j].chunkWidth * i * numChannels;
+      for (int k = 0; k < chunks[j].chunkWidth; k++) {
+        // Get each pixel value.
+        pixels[pixelIndex++] = chunks[j].render[startingIndex++];
+        pixels[pixelIndex++] = chunks[j].render[startingIndex++];
+        pixels[pixelIndex++] = chunks[j].render[startingIndex++];
       }
     }
   }
@@ -190,6 +200,33 @@ int main()
     pixels,
     imageWidth * numChannels
   );
+
+  // Get time duration.
+  auto timeElapsed = timeEnd - timeStart;
+  int timeElapsedMS = std::chrono::duration_cast<std::chrono::milliseconds>(
+    timeElapsed
+  ).count();
+
+  int totalElapsedTimeMS = timeElapsedMS;
+
+  int hours = timeElapsedMS / 3600000; // 1 hr = 3,600,000 ms
+  timeElapsedMS = timeElapsedMS % 3600000;
+
+  int minutes = timeElapsedMS / 60000; // 1 m  = 60,000 ms
+  timeElapsedMS = timeElapsedMS % 60000;
+
+  int seconds = timeElapsedMS / 1000;  // 1s   = 1,000 ms
+  timeElapsedMS = timeElapsedMS % 1000;
+
+  int milliseconds = timeElapsedMS;
+
+  std::cout << "============================================\n";
+  std::cout << "Time Elapsed: "
+            << hours        << "hr "
+            << minutes      << "m "
+            << seconds      << "s "
+            << milliseconds << "ms\n";
+  std::cout << "Time Elapsed: " << totalElapsedTimeMS << "ms\n";
 
   return 0;
 }

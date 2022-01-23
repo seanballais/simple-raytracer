@@ -12,7 +12,12 @@
 class RenderThread
 {
 public:
-  RenderThread(int id, int chunkWidth, int chunkHeight);
+  RenderThread(int id,
+               int imageWidth,
+               int imageHeight,
+               int startingX,
+               int chunkWidth,
+               int chunkHeight);
   RenderedChunk getRenderedChunk();
   void render(const HittableList& world,
               const Camera& camera,
@@ -21,6 +26,9 @@ public:
 
 private:
   int m_id;
+  int m_imageWidth;
+  int m_imageHeight;
+  int m_startingX;
   int m_chunkWidth;
   int m_chunkHeight;
   int m_scanlinesCompleted;
